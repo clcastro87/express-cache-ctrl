@@ -1,0 +1,37 @@
+{
+  "name": "express-cache-control",
+  "version": "1.0.0",
+  "description": "Express middleware to handle content expiration using Cache-Control header.",
+  "main": "src/cache.js",
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "keywords": [
+    "express",
+    "cache",
+    "cache-control",
+    "http"
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "author": "Carlos Luis Castro Márquez <carlosluiscastro@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ms": "^0.7.0",
+    "express": "^4.9.3"
+  },
+  "devDependencies": {
+    "debug": "^2.0.0",
+    "morgan": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-jscs": "^1.1.2",
+    "gulp-jshint": "^1.7.1",
+    "gulp-load-plugins": "^0.7.0",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^1.0.0",
+    "mocha": "^1.21.5",
+    "chai": "^1.10.0",
+    "mock-res": "^0.1.0"
+  }
+}
