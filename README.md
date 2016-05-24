@@ -39,7 +39,7 @@ Returns the cache middleware using the given `options` and `ttl`. This middlewar
 
 #### ttl
 
-Cache Time-To-Live in seconds or in ms() notation. Ej: `1d`
+Cache Time-To-Live in seconds or in ms() notation. e.g. `1d`
 
 #### Options
 
@@ -71,7 +71,7 @@ Returns the cache middleware using the given `options` and `ttl`. This middlewar
 
 #### ttl
 
-Cache Time-To-Live in seconds or in ms() notation. Ej: `1d`
+Cache Time-To-Live in seconds or in ms() notation. e.g. `1d`
 
 #### Options
 
