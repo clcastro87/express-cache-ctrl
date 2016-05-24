@@ -1,12 +1,12 @@
-# express-cache-control
+# express-cache-ctrl
 
-[![NPM version](https://img.shields.io/npm/v/express-cache-control.svg?style=flat)](https://www.npmjs.com/package/express-cache-control)
-[![NPM Downloads](https://img.shields.io/npm/dm/express-cache-control.svg)](https://www.npmjs.com/package/express-cache-control)
-[![Build Status](https://travis-ci.org/clcastro87/express-cache-control.svg?branch=master)](https://travis-ci.org/clcastro87/express-cache-control)
-[![Issues](https://img.shields.io/github/issues/clcastro87/express-cache-control.svg)](https://travis-ci.org/clcastro87/express-cache-control)
-[![GitHub forks](https://img.shields.io/github/forks/clcastro87/express-cache-control.svg)](https://github.com/clcastro87/express-cache-control/network)
-[![GitHub stars](https://img.shields.io/github/stars/clcastro87/express-cache-control.svg)](https://github.com/clcastro87/express-cache-control/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/clcastro87/express-cache-control/master/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/express-cache-ctrl.svg?style=flat)](https://www.npmjs.com/package/express-cache-ctrl)
+[![NPM Downloads](https://img.shields.io/npm/dm/express-cache-ctrl.svg)](https://www.npmjs.com/package/express-cache-ctrl)
+[![Build Status](https://travis-ci.org/clcastro87/express-cache-ctrl.svg?branch=master)](https://travis-ci.org/clcastro87/express-cache-ctrl)
+[![Issues](https://img.shields.io/github/issues/clcastro87/express-cache-ctrl.svg)](https://travis-ci.org/clcastro87/express-cache-ctrl)
+[![GitHub forks](https://img.shields.io/github/forks/clcastro87/express-cache-ctrl.svg)](https://github.com/clcastro87/express-cache-ctrl/network)
+[![GitHub stars](https://img.shields.io/github/stars/clcastro87/express-cache-ctrl.svg)](https://github.com/clcastro87/express-cache-ctrl/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/clcastro87/express-cache-ctrl/master/LICENSE)
 
 **Express middleware to handle Cache-Control header, this is used by browsers with HTTP 1.1 support to know about content expiration, 
 and when to deliver content from navigator's cache. This is a huge performance improvement when loading content from a website.**
@@ -14,14 +14,14 @@ and when to deliver content from navigator's cache. This is a huge performance i
 ## Install
 
 ```bash
-$ npm install express-cache-control
+$ npm install express-cache-ctrl
 ```
 
 ## Basic usage
 
 ```js
 var app = express();
-var cache = require('express-cache-control');
+var cache = require('express-cache-ctrl');
 app.use('/api', cache.disable());
 ```
 
@@ -144,7 +144,7 @@ high as you like. Also it can be used in any stage in any express pipeline or ro
 
 ```js
 var express = require('express');
-var cache = require('express-cache-control');
+var cache = require('express-cache-ctrl');
 
 var app = express();
 
@@ -159,7 +159,7 @@ app.get('/hello', function(req, res) {
 
 ```js
 var express = require('express');
-var cache = require('express-cache-control');
+var cache = require('express-cache-ctrl');
 
 var app = express();
 

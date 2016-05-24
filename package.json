@@ -1,5 +1,5 @@
 {
-  "name": "express-cache-control",
+  "name": "express-cache-ctrl",
   "version": "1.0.0",
   "description": "Express middleware to handle content expiration using Cache-Control header.",
   "main": "src/cache.js",
