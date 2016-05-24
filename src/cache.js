@@ -106,7 +106,7 @@
             // Set max-age
             cacheControl.push('max-age:' + toTimespan(opts.ttl || defaultTTL));
             if (opts.sttl) {
-                cacheControl.push('s-max-age:' + toTimespan(opts.sttl));
+                cacheControl.push('s-maxage:' + toTimespan(opts.sttl));
             }
         }
         if (!!opts.mustRevalidate) {

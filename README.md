@@ -1,115 +1,174 @@
-# express-tongue
+# express-cache-control
 
-[![NPM version](https://img.shields.io/npm/v/express-tongue.svg?style=flat)](https://www.npmjs.com/package/express-tongue)
-[![NPM Downloads](https://img.shields.io/npm/dm/express-tongue.svg)](https://www.npmjs.com/package/express-tongue)
-[![Build Status](https://travis-ci.org/clcastro87/express-tongue.svg?branch=master)](https://travis-ci.org/clcastro87/express-tongue)
-[![Issues](https://img.shields.io/github/issues/clcastro87/express-tongue.svg)](https://travis-ci.org/clcastro87/express-tongue)
-[![GitHub forks](https://img.shields.io/github/forks/clcastro87/express-tongue.svg)](https://github.com/clcastro87/express-tongue/network)
-[![GitHub stars](https://img.shields.io/github/stars/clcastro87/express-tongue.svg)](https://github.com/clcastro87/express-tongue/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/clcastro87/express-tongue/master/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/express-cache-control.svg?style=flat)](https://www.npmjs.com/package/express-cache-control)
+[![NPM Downloads](https://img.shields.io/npm/dm/express-cache-control.svg)](https://www.npmjs.com/package/express-cache-control)
+[![Build Status](https://travis-ci.org/clcastro87/express-cache-control.svg?branch=master)](https://travis-ci.org/clcastro87/express-cache-control)
+[![Issues](https://img.shields.io/github/issues/clcastro87/express-cache-control.svg)](https://travis-ci.org/clcastro87/express-cache-control)
+[![GitHub forks](https://img.shields.io/github/forks/clcastro87/express-cache-control.svg)](https://github.com/clcastro87/express-cache-control/network)
+[![GitHub stars](https://img.shields.io/github/stars/clcastro87/express-cache-control.svg)](https://github.com/clcastro87/express-cache-control/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/clcastro87/express-cache-control/master/LICENSE)
 
-**Express middleware to handle sites in multiple languages.**
-
-The following localization setup are supported:
-
-  - authenticated user with language attribute
-    ```js
-    Ex: req.user.language
-    ```
-  - querystring 
-    ```
-    Ex: ?hl=en
-    ```
-  - cookie
-  - User-Agent
-  - default language
+**Express middleware to handle Cache-Control header, this is used by browsers with HTTP 1.1 support to know about content expiration, 
+and when to deliver content from navigator's cache. This is a huge performance improvement when loading content from a website.**
 
 ## Install
 
 ```bash
-$ npm install express-tongue
+$ npm install express-cache-control
 ```
 
-## API
+## Basic usage
 
 ```js
 var app = express();
-var i18n = require('express-tongue');
-app.use(i18n.localize({ 
-    endpointEnabled: true, 
-    path: __dirname + '/i18n', 
-    queryStringEnabled: true
-}));
+var cache = require('express-cache-control');
+app.use('/api', cache.disable());
 ```
 
-### localize([options])
+### disable()
 
-Returns the localization middleware using the given `options`. This middleware injects 
-the variable i18n inside res.locals, for usage inside template engines. Also is you are
-planning to use localization on client side; for example in SPA, then you have 
-several endpoints which helps you to develop a fully localized page.
+Returns a middleware you can use on express pipeline, to disable content caching. 
+
+### secure()
+
+Returns a middleware you can use on express pipeline, to disable content caching. This method is recomended by OWASP. 
+
+### private([ttl], [options])
+
+Returns the cache middleware using the given `options` and `ttl`. This middleware sets Cache-Control scope to private.
+
+#### ttl
+
+Cache Time-To-Live in seconds or in ms() notation. Ej: `1d`
 
 #### Options
 
-`localize()` accepts these properties in the options object. 
+`private()` accepts these properties in the options object. 
 
-##### defaultLang
+##### ttl
 
-Default language abbreviation. Defaults to `en`.
+Cache ttl in seconds (max-age). Defaults to `1h`.
 
-##### path
+##### sttl
 
-Directory where localization files are located. Defaults to `WORKING_DIR/i18n`.
+Shared cache ttl in seconds (s-maxage). Defaults to `1h`.
 
-##### languages
+##### mustRevalidate
 
-Replace available languages for those specified in array. This is useful when you want
-to deactivate some language.
+Boolean to specify if content must be revalidated by the browser. 
 
-##### endpointEnabled
+##### proxyRevalidate
 
-Enables API endpoint for usage in client apps. Defaults to `false`
+Boolean to specify if content must be revalidated by proxy servers. 
 
-##### endpointPath
+##### noTransform
 
-Route in which endpoint will be mounted. Defaults to `/i18n`
+Boolean to disable header transformation. 
 
-##### queryStringEnabled
+### public([ttl], [options])
 
-Allows language replacement by setting key in querystring.
+Returns the cache middleware using the given `options` and `ttl`. This middleware sets Cache-Control scope to public.
 
-##### queryStringKey
+#### ttl
 
-Setup key used in querystring to define current language. Defaults to `hl`.
+Cache Time-To-Live in seconds or in ms() notation. Ej: `1d`
 
-#### langCookie
+#### Options
 
-Cookie name for storing current locale.
+`public()` accepts these properties in the options object. 
+
+##### ttl
+
+Cache ttl in seconds (max-age). Defaults to `1h`.
+
+##### sttl
+
+Shared cache ttl in seconds (s-maxage). Defaults to `1h`.
+
+##### mustRevalidate
+
+Boolean to specify if content must be revalidated by the browser. 
+
+##### proxyRevalidate
+
+Boolean to specify if content must be revalidated by proxy servers. 
+
+##### noTransform
+
+Boolean to disable header transformation. 
+
+### custom([options])
+
+Returns the cache middleware using the given `options`. 
+
+#### Options
+
+`custom()` accepts these properties in the options object. 
+
+##### scope
+
+Sets the Cache-Control scope. Either `public` or `private`.
+
+##### ttl
+
+Cache ttl in seconds (max-age). Defaults to `1h`.
+
+##### sttl
+
+Shared cache ttl in seconds (s-maxage). Defaults to `1h`.
+
+##### mustRevalidate
+
+Boolean to specify if content must be revalidated by the browser. 
+
+##### proxyRevalidate
+
+Boolean to specify if content must be revalidated by proxy servers. 
+
+##### noTransform
+
+Boolean to disable header transformation. 
+
+##### noCache
+
+Disables content caching and sets header to: `no-cache, no-store`. 
 
 ## Examples
 
 ### express/connect
 
 When using this module with express or connect, simply `app.use` the module as
-high as you like. Requests that pass through the middleware will inject `i18n` property 
-to res.locals
+high as you like. Also it can be used in any stage in any express pipeline or route.
+
+**Setting default cache to private, and 1 hour to expiration.**
 
 ```js
-var i18n = require('compression')
-var express = require('express')
+var express = require('express');
+var cache = require('express-cache-control');
 
 var app = express();
-var i18n = require('express-tongue');
-app.use(i18n.localize({ 
-    endpointEnabled: true, 
-    path: __dirname + '/i18n', 
-    queryStringEnabled: true
-}));
 
-app.use('/locals', function(req, res) {
-    res.json(res.locals.i18n);
+app.use(cache.private(3600)); // 1 min.
+
+app.get('/hello', function(req, res) {
+    res.json({hello: 'world!'});
 });
 ```
+
+**Setting secure cache to specific route.**
+
+```js
+var express = require('express');
+var cache = require('express-cache-control');
+
+var app = express();
+
+app.get('/hello', cache.secure(), function(req, res) {
+    res.json({hello: 'world!'});
+});
+```
+
+**For more examples, you can watch out, the unit tests for this module. `test/cache.js`**
 
 ## License
 

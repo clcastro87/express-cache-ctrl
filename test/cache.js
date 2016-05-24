@@ -106,7 +106,7 @@ describe('Cache Middleware', function () {
 
             var controls = parseCacheControl(cacheControl);
             expect(controls).to.property('max-age').and.to.equal(ttl);
-            expect(controls).to.property('s-max-age').and.to.equal(ttl);
+            expect(controls).to.property('s-maxage').and.to.equal(ttl);
             done();
         });
     });
@@ -122,7 +122,7 @@ describe('Cache Middleware', function () {
 
             var controls = parseCacheControl(cacheControl);
             expect(controls).to.property('max-age').and.to.equal(ttl);
-            expect(controls).to.property('s-max-age').and.to.equal(ttl);
+            expect(controls).to.property('s-maxage').and.to.equal(ttl);
             expect(controls).to.property('must-revalidate');
             done();
         });
@@ -146,7 +146,7 @@ describe('Cache Middleware', function () {
 
             var controls = parseCacheControl(cacheControl);
             expect(controls).to.property('max-age').and.to.equal(ttl);
-            expect(controls).to.property('s-max-age').and.to.equal(ttl);
+            expect(controls).to.property('s-maxage').and.to.equal(ttl);
             expect(controls).to.property('must-revalidate');
             expect(controls).to.property('no-transform');
             expect(controls).to.property('proxy-revalidate');
