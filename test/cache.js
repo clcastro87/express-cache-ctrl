@@ -167,8 +167,8 @@ describe('Cache Middleware', function () {
         return parts.reduce(function (prev, current) {
             var value = true;
             var key = current.trim();
-            if (current.indexOf(':') !== -1) {
-                var keyAndValue = current.split(':');
+            if (current.indexOf('=') !== -1) {
+                var keyAndValue = current.split('=');
                 key = keyAndValue[0] && keyAndValue[0].trim();
                 value = keyAndValue[1] && keyAndValue[1].trim();
             }
