@@ -104,9 +104,9 @@
                 cacheControl.push('private');
             }
             // Set max-age
-            cacheControl.push('max-age:' + toTimespan(opts.ttl || defaultTTL));
+            cacheControl.push('max-age=' + toTimespan(opts.ttl || defaultTTL));
             if (opts.sttl) {
-                cacheControl.push('s-maxage:' + toTimespan(opts.sttl));
+                cacheControl.push('s-maxage=' + toTimespan(opts.sttl));
             }
         }
         if (!!opts.mustRevalidate) {
