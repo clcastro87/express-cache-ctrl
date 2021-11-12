@@ -1,5 +1,5 @@
-var MockRes = require('mock-res');
-var util = require('util');
+const MockRes = require("mock-res");
+const util = require("util");
 
 /**
  * Response prototype.
@@ -13,13 +13,11 @@ util.inherits(Response, MockRes);
 
 Response.prototype.set = function (field, val) {
     if (arguments.length === 2) {
-        var value = Array.isArray(val)
-            ? val.map(String)
-            : String(val);
+        var value = Array.isArray(val) ? val.map(String) : String(val);
 
         this.setHeader(field, value);
     } else {
-        for (var key in field) {
+        for (let key in field) {
             this.set(key, field[key]);
         }
     }
@@ -34,7 +32,7 @@ Response.prototype.set = function (field, val) {
  * @public
  */
 
-Response.prototype.get = function(field){
+Response.prototype.get = function (field) {
     return this.getHeader(field);
 };
 
