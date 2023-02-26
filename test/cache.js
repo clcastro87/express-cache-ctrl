@@ -1,4 +1,4 @@
-const expect = require("chai").expect;
+const { expect } = require("chai");
 const ms = require("ms");
 const cache = require("../src/cache");
 const Response = require("./mocks/response");
@@ -8,11 +8,11 @@ describe("Cache Middleware", function () {
 
     it("cache disabled", function (done) {
         const middleware = cache.disable();
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             const controls = parseCacheControl(cacheControl);
             expect(controls).to.property("no-store");
             expect(controls).to.property("no-cache");
@@ -20,7 +20,7 @@ describe("Cache Middleware", function () {
             expect(controls).to.property("proxy-revalidate");
 
             const pragma = res.get("Pragma");
-            expect(pragma).to.not.null();
+            expect(pragma).to.not.be.null;
             expect(pragma).to.equal("no-cache");
             done();
         });
@@ -28,11 +28,11 @@ describe("Cache Middleware", function () {
 
     it("cache secure", function (done) {
         const middleware = cache.secure();
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("private")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
@@ -42,7 +42,7 @@ describe("Cache Middleware", function () {
             expect(controls).to.property("no-transform");
 
             const pragma = res.get("Pragma");
-            expect(pragma).to.not.null();
+            expect(pragma).to.not.be.null;
             expect(pragma).to.equal("no-cache");
             done();
         });
@@ -50,11 +50,11 @@ describe("Cache Middleware", function () {
 
     it("cache with no TTL", function (done) {
         const middleware = cache.private();
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
 
             const controls = parseCacheControl(cacheControl);
             expect(controls)
@@ -66,11 +66,11 @@ describe("Cache Middleware", function () {
 
     it("cache private", function (done) {
         const middleware = cache.private(ttl);
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("private")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
@@ -81,11 +81,11 @@ describe("Cache Middleware", function () {
 
     it("cache private, with custom options", function (done) {
         const middleware = cache.private(ttl, { mustRevalidate: true });
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("private")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
@@ -97,11 +97,11 @@ describe("Cache Middleware", function () {
 
     it("cache public", function (done) {
         const middleware = cache.public(ttl);
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("public")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
@@ -113,11 +113,11 @@ describe("Cache Middleware", function () {
 
     it("cache public, with custom options", function (done) {
         const middleware = cache.public(ttl, { mustRevalidate: true });
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("public")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
@@ -137,11 +137,11 @@ describe("Cache Middleware", function () {
             proxyRevalidate: true,
             noTransform: true,
         });
-        expect(middleware).to.not.null();
+        expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.null();
+            expect(cacheControl).to.not.be.null;
             expect(cacheControl.indexOf("public")).to.equal(0);
 
             const controls = parseCacheControl(cacheControl);
