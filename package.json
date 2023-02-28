@@ -17,18 +17,18 @@
     "http"
   ],
   "engines": {
-    "node": ">= 10.0"
+    "node": ">= 12.0"
   },
   "author": "Carlos Luis Castro Márquez <carlosluiscastro@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.9.3",
+    "express": "^4.18.2",
     "ms": "^2.1.3"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "mocha": "^9.2.2",
-    "mock-res": "^0.1.0",
-    "morgan": "^1.1.1"
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "mock-res": "^0.6.0",
+    "morgan": "^1.10.0"
   }
 }
