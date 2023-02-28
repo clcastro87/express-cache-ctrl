@@ -17,7 +17,7 @@
     "http"
   ],
   "engines": {
-    "node": ">= 10.0"
+    "node": ">= 12.0"
   },
   "author": "Carlos Luis Castro Márquez <carlosluiscastro@gmail.com>",
   "license": "MIT",
