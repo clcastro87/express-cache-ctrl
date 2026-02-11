@@ -120,3 +120,4 @@ exports.secure = cacheSecure;
 exports.public = cachePublic;
 exports.private = cachePrivate;
 exports.toTimespan = toTimespan;
+exports.generateHeader = generateHeader;
