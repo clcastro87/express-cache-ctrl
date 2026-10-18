@@ -38,7 +38,7 @@ Note: This project uses Mocha (test runner) + Chai (assertions). Tests use BDD s
 - Use ES5/CommonJS (no ES6 modules)
 - Import style: `const module = require("module");`
 - Use `"use strict";` directive at top of source files
-- Node.js version: >= 12.0
+- Node.js version: >= 20.19.0 (mocha 12 requires it)
 
 ### Naming Conventions
 - Functions: camelCase (e.g., `cacheCustom`, `toTimespan`)
