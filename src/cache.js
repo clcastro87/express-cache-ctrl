@@ -49,20 +49,25 @@ function cacheSecure() {
 }
 
 function cachePublic(ttl, opts) {
-    opts = opts || {};
+    opts = copyOptions(opts);
     opts.scope = "public";
     opts.sttl = opts.ttl = ttl || defaultTTL;
     return cacheCustom(opts);
 }
 
 function cachePrivate(ttl, opts) {
-    opts = opts || {};
+    opts = copyOptions(opts);
     opts.scope = "private";
     opts.ttl = ttl || defaultTTL;
     return cacheCustom(opts);
 }
 
 // Private functions
+// Shallow copy so callers' option objects are never mutated.
+function copyOptions(opts) {
+    return Object.assign({}, opts);
+}
+
 function toTimespan(input) {
     if (!isNaN(input)) {
         return parseInt(input);
