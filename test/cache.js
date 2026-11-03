@@ -155,6 +155,27 @@ describe("Cache Middleware", function () {
     });
 
     describe("Edge Cases", function () {
+        it("public and private should not mutate the caller's options", function () {
+            const opts = { mustRevalidate: true };
+            cache.public("1d", opts);
+            cache.private("2h", opts);
+            expect(opts).to.deep.equal({ mustRevalidate: true });
+        });
+
+        it("reusing one options object should not leak scope or ttl between calls", function (done) {
+            const opts = { mustRevalidate: true };
+            cache.public("1d", opts);
+            const middleware = cache.private("2h", opts);
+            runMiddleware(middleware, function (res) {
+                const controls = parseCacheControl(res.get("Cache-Control"));
+                expect(controls).to.have.property("private");
+                expect(controls).to.not.have.property("public");
+                expect(controls).to.not.have.property("s-maxage");
+                expect(controls).to.property("max-age").and.to.equal(7200);
+                done();
+            });
+        });
+
         it("cache private with TTL = 0 defaults to defaultTTL", function (done) {
             const middleware = cache.private(0);
             runMiddleware(middleware, function (res) {
