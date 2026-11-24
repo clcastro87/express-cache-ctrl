@@ -76,6 +76,12 @@ function toTimespan(input) {
     return parseInt(ms(input) / 1000);
 }
 
+// Invalid or negative lifetimes are treated as stale (RFC 9111, section 4.2.1).
+function toDeltaSeconds(input) {
+    var seconds = toTimespan(input);
+    return seconds > 0 ? seconds : 0;
+}
+
 function generateHeader(opts) {
     var cacheControl = [];
 
@@ -96,9 +102,9 @@ function generateHeader(opts) {
             cacheControl.push("private");
         }
         // Set max-age
-        cacheControl.push("max-age=" + toTimespan(opts.ttl || defaultTTL));
+        cacheControl.push("max-age=" + toDeltaSeconds(opts.ttl || defaultTTL));
         if (opts.sttl) {
-            cacheControl.push("s-maxage=" + toTimespan(opts.sttl));
+            cacheControl.push("s-maxage=" + toDeltaSeconds(opts.sttl));
         }
     }
     if (!!opts.mustRevalidate) {

@@ -276,6 +276,22 @@ describe("Cache Middleware", function () {
             });
         });
 
+        it("cache public with invalid TTL should be treated as stale", function (done) {
+            const middleware = cache.public("1h30m");
+            runMiddleware(middleware, function (res) {
+                expect(res.get("Cache-Control")).to.equal("public, max-age=0, s-maxage=0");
+                done();
+            });
+        });
+
+        it("cache private with negative TTL should be treated as stale", function (done) {
+            const middleware = cache.private("-1h");
+            runMiddleware(middleware, function (res) {
+                expect(res.get("Cache-Control")).to.equal("private, max-age=0");
+                done();
+            });
+        });
+
         it("cache custom with different max-age and s-maxage", function (done) {
             const middleware = cache.custom({
                 scope: "public",
