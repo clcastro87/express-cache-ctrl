@@ -13,17 +13,17 @@ An Express.js middleware for managing Cache-Control headers with support for pub
 npm test
 
 # Run specific test file
-npx mocha 'test/cache.js'
-npx mocha 'test/unit/cache.js'
+node --test test/cache.js
+node --test test/unit/cache.js
 
-# Run tests matching a pattern (grep)
-npx mocha 'test/**/*.js' --grep "cache disabled"
+# Run tests matching a pattern
+node --test --test-name-pattern="cache disabled" test/*.js test/unit/*.js
 
 # Run with different reporter
-npx mocha 'test/**/*.js' --reporter spec
+node --test --test-reporter=spec test/*.js test/unit/*.js
 ```
 
-Note: This project uses Mocha (test runner) + Chai (assertions). Tests use BDD style with `describe()` and `it()` blocks.
+Note: This project uses `node:test` (built-in test runner) + Chai (assertions). Tests use BDD style with `describe()` and `it()` blocks.
 
 ## Code Style Guidelines
 
@@ -38,7 +38,7 @@ Note: This project uses Mocha (test runner) + Chai (assertions). Tests use BDD s
 - Use ES5/CommonJS (no ES6 modules)
 - Import style: `const module = require("module");`
 - Use `"use strict";` directive at top of source files
-- Node.js version: >= 20.19.0 (mocha 12 requires it)
+- Node.js version: >= 20.19.0
 
 ### Naming Conventions
 - Functions: camelCase (e.g., `cacheCustom`, `toTimespan`)
@@ -56,10 +56,11 @@ Note: This project uses Mocha (test runner) + Chai (assertions). Tests use BDD s
 - Test files: Located in `test/` directory with `.js` extension
 - Unit tests: Place in `test/unit/` subdirectory
 - Mock objects: Place in `test/mocks/` subdirectory
+- Import the runner: `const { describe, it } = require("node:test");`
 - Use Chai's `expect()` assertion style
 - Use descriptive test names that explain behavior
 - Group related tests with nested `describe()` blocks
-- Follow pattern: `it("should do something", function (done) { ... });`
+- Follow pattern: `it("should do something", function (t, done) { ... });` (`done` is the second argument)
 - Call `done()` callback for async tests
 
 ### Error Handling
@@ -96,7 +97,6 @@ Peer:
 - express: ^4.0.0 || ^5.0.0
 
 Development:
-- mocha: ^10.2.0
 - chai: ^4.3.7
 - express: ^4.22.1
 - mock-res: ^0.6.0

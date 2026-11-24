@@ -1,3 +1,4 @@
+const { describe, it } = require("node:test");
 const { expect } = require("chai");
 const cache = require("../../src/cache");
 

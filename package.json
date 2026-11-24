@@ -4,7 +4,7 @@
   "description": "Express middleware to handle content expiration using Cache-Control header.",
   "main": "src/cache.js",
   "scripts": {
-    "test": "mocha 'test/**/*.js'"
+    "test": "node --test --test-timeout=5000 test/*.js test/unit/*.js"
   },
   "repository": {
     "type": "git",
@@ -30,14 +30,7 @@
   "devDependencies": {
     "chai": "^4.5.0",
     "express": "^4.22.1",
-    "mocha": "^12.0.3",
     "mock-res": "^0.6.0",
     "morgan": "^1.10.1"
-  },
-  "overrides": {
-    "mocha": {
-      "glob": "^14.0.2",
-      "minimatch": "^11.0.1"
-    }
   }
 }

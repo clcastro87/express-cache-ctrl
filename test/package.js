@@ -1,3 +1,4 @@
+const { describe, it } = require("node:test");
 const { expect } = require("chai");
 const http = require("http");
 const express = require("express");
@@ -13,7 +14,7 @@ describe("Package", function () {
         expect(pkg.peerDependencies).to.have.property("express");
     });
 
-    it("should set headers in a real express app", function (done) {
+    it("should set headers in a real express app", function (t, done) {
         const app = express();
         app.get("/", cache.public("1h30m"), function (req, res) {
             res.send("ok");

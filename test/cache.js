@@ -1,3 +1,4 @@
+const { describe, it } = require("node:test");
 const { expect } = require("chai");
 const ms = require("ms");
 const cache = require("../src/cache");
@@ -6,7 +7,7 @@ const Response = require("./mocks/response");
 describe("Cache Middleware", function () {
     const ttl = 3600;
 
-    it("cache disabled", function (done) {
+    it("cache disabled", function (t, done) {
         const middleware = cache.disable();
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -26,7 +27,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache secure", function (done) {
+    it("cache secure", function (t, done) {
         const middleware = cache.secure();
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -48,7 +49,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache with no TTL", function (done) {
+    it("cache with no TTL", function (t, done) {
         const middleware = cache.private();
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -64,7 +65,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache private", function (done) {
+    it("cache private", function (t, done) {
         const middleware = cache.private(ttl);
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -79,7 +80,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache private, with custom options", function (done) {
+    it("cache private, with custom options", function (t, done) {
         const middleware = cache.private(ttl, { mustRevalidate: true });
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -95,7 +96,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache public", function (done) {
+    it("cache public", function (t, done) {
         const middleware = cache.public(ttl);
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -111,7 +112,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache public, with custom options", function (done) {
+    it("cache public, with custom options", function (t, done) {
         const middleware = cache.public(ttl, { mustRevalidate: true });
         expect(middleware).to.not.be.null;
         expect(middleware).to.be.a("function");
@@ -128,7 +129,7 @@ describe("Cache Middleware", function () {
         });
     });
 
-    it("cache custom", function (done) {
+    it("cache custom", function (t, done) {
         const middleware = cache.custom({
             ttl: ttl,
             sttl: ttl,
@@ -162,7 +163,7 @@ describe("Cache Middleware", function () {
             expect(opts).to.deep.equal({ mustRevalidate: true });
         });
 
-        it("reusing one options object should not leak scope or ttl between calls", function (done) {
+        it("reusing one options object should not leak scope or ttl between calls", function (t, done) {
             const opts = { mustRevalidate: true };
             cache.public("1d", opts);
             const middleware = cache.private("2h", opts);
@@ -176,7 +177,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache private with TTL = 0 defaults to defaultTTL", function (done) {
+        it("cache private with TTL = 0 defaults to defaultTTL", function (t, done) {
             const middleware = cache.private(0);
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -188,7 +189,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache public with string TTL '1d'", function (done) {
+        it("cache public with string TTL '1d'", function (t, done) {
             const middleware = cache.public("1d");
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -199,7 +200,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache public with string TTL '2h'", function (done) {
+        it("cache public with string TTL '2h'", function (t, done) {
             const middleware = cache.public("2h");
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -210,7 +211,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache public with string TTL '30m'", function (done) {
+        it("cache public with string TTL '30m'", function (t, done) {
             const middleware = cache.public("30m");
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -221,7 +222,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache custom with no options", function (done) {
+        it("cache custom with no options", function (t, done) {
             const middleware = cache.custom();
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -231,7 +232,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache custom with empty options", function (done) {
+        it("cache custom with empty options", function (t, done) {
             const middleware = cache.custom({});
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -242,7 +243,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("should remove Pragma header when noCache is false", function (done) {
+        it("should remove Pragma header when noCache is false", function (t, done) {
             const middleware = cache.private(3600);
             const res = new Response();
             // Set Pragma header first
@@ -254,7 +255,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("should call next() callback", function (done) {
+        it("should call next() callback", function (t, done) {
             const middleware = cache.private(3600);
             const res = new Response();
             let nextCalled = false;
@@ -265,7 +266,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache public with 1 week TTL", function (done) {
+        it("cache public with 1 week TTL", function (t, done) {
             const middleware = cache.public("1w");
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
@@ -276,7 +277,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache public with invalid TTL should be treated as stale", function (done) {
+        it("cache public with invalid TTL should be treated as stale", function (t, done) {
             const middleware = cache.public("1h30m");
             runMiddleware(middleware, function (res) {
                 expect(res.get("Cache-Control")).to.equal("public, max-age=0, s-maxage=0");
@@ -284,7 +285,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache private with negative TTL should be treated as stale", function (done) {
+        it("cache private with negative TTL should be treated as stale", function (t, done) {
             const middleware = cache.private("-1h");
             runMiddleware(middleware, function (res) {
                 expect(res.get("Cache-Control")).to.equal("private, max-age=0");
@@ -292,7 +293,7 @@ describe("Cache Middleware", function () {
             });
         });
 
-        it("cache custom with different max-age and s-maxage", function (done) {
+        it("cache custom with different max-age and s-maxage", function (t, done) {
             const middleware = cache.custom({
                 scope: "public",
                 ttl: "2h",
