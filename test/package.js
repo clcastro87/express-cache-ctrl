@@ -1,5 +1,5 @@
 const { describe, it } = require("node:test");
-const { expect } = require("chai");
+const assert = require("node:assert/strict");
 const http = require("http");
 const express = require("express");
 const pkg = require("../package.json");
@@ -7,11 +7,11 @@ const cache = require("../src/cache");
 
 describe("Package", function () {
     it("should not bundle express as a production dependency", function () {
-        expect(pkg.dependencies).to.not.have.property("express");
+        assert.ok(!("express" in pkg.dependencies));
     });
 
     it("should declare express as a peer dependency", function () {
-        expect(pkg.peerDependencies).to.have.property("express");
+        assert.ok("express" in pkg.peerDependencies);
     });
 
     it("should set headers in a real express app", function (t, done) {
@@ -24,7 +24,7 @@ describe("Package", function () {
             http.get(options, function (res) {
                 res.resume();
                 server.close();
-                expect(res.headers["cache-control"]).to.equal("public, max-age=0, s-maxage=0");
+                assert.equal(res.headers["cache-control"], "public, max-age=0, s-maxage=0");
                 done();
             }).on("error", done);
         });

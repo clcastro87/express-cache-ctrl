@@ -1,5 +1,5 @@
 const { describe, it } = require("node:test");
-const { expect } = require("chai");
+const assert = require("node:assert/strict");
 const ms = require("ms");
 const cache = require("../src/cache");
 const Response = require("./mocks/response");
@@ -9,122 +9,120 @@ describe("Cache Middleware", function () {
 
     it("cache disabled", function (t, done) {
         const middleware = cache.disable();
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
+            assert.ok(cacheControl);
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("no-store");
-            expect(controls).to.property("no-cache");
-            expect(controls).to.property("must-revalidate");
-            expect(controls).to.property("proxy-revalidate");
+            assert.ok("no-store" in controls);
+            assert.ok("no-cache" in controls);
+            assert.ok("must-revalidate" in controls);
+            assert.ok("proxy-revalidate" in controls);
 
             const pragma = res.get("Pragma");
-            expect(pragma).to.not.be.null;
-            expect(pragma).to.equal("no-cache");
+            assert.ok(pragma);
+            assert.equal(pragma, "no-cache");
             done();
         });
     });
 
     it("cache secure", function (t, done) {
         const middleware = cache.secure();
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("private")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("private"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("no-store");
-            expect(controls).to.property("no-cache");
-            expect(controls).to.property("must-revalidate");
-            expect(controls).to.property("no-transform");
+            assert.ok("no-store" in controls);
+            assert.ok("no-cache" in controls);
+            assert.ok("must-revalidate" in controls);
+            assert.ok("no-transform" in controls);
 
             const pragma = res.get("Pragma");
-            expect(pragma).to.not.be.null;
-            expect(pragma).to.equal("no-cache");
+            assert.ok(pragma);
+            assert.equal(pragma, "no-cache");
             done();
         });
     });
 
     it("cache with no TTL", function (t, done) {
         const middleware = cache.private();
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
+            assert.ok(cacheControl);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls)
-                .to.property("max-age")
-                .and.to.equal(cache.toTimespan(cache.defaultTTL));
+            assert.equal(controls["max-age"], cache.toTimespan(cache.defaultTTL));
             done();
         });
     });
 
     it("cache private", function (t, done) {
         const middleware = cache.private(ttl);
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("private")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("private"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("max-age").and.to.equal(ttl);
+            assert.equal(controls["max-age"], ttl);
             done();
         });
     });
 
     it("cache private, with custom options", function (t, done) {
         const middleware = cache.private(ttl, { mustRevalidate: true });
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("private")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("private"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("max-age").and.to.equal(ttl);
-            expect(controls).to.property("must-revalidate");
+            assert.equal(controls["max-age"], ttl);
+            assert.ok("must-revalidate" in controls);
             done();
         });
     });
 
     it("cache public", function (t, done) {
         const middleware = cache.public(ttl);
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("public")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("public"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("max-age").and.to.equal(ttl);
-            expect(controls).to.property("s-maxage").and.to.equal(ttl);
+            assert.equal(controls["max-age"], ttl);
+            assert.equal(controls["s-maxage"], ttl);
             done();
         });
     });
 
     it("cache public, with custom options", function (t, done) {
         const middleware = cache.public(ttl, { mustRevalidate: true });
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("public")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("public"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("max-age").and.to.equal(ttl);
-            expect(controls).to.property("s-maxage").and.to.equal(ttl);
-            expect(controls).to.property("must-revalidate");
+            assert.equal(controls["max-age"], ttl);
+            assert.equal(controls["s-maxage"], ttl);
+            assert.ok("must-revalidate" in controls);
             done();
         });
     });
@@ -138,19 +136,19 @@ describe("Cache Middleware", function () {
             proxyRevalidate: true,
             noTransform: true,
         });
-        expect(middleware).to.not.be.null;
-        expect(middleware).to.be.a("function");
+        assert.ok(middleware);
+        assert.equal(typeof middleware, "function");
         runMiddleware(middleware, function (res) {
             const cacheControl = res.get("Cache-Control");
-            expect(cacheControl).to.not.be.null;
-            expect(cacheControl.indexOf("public")).to.equal(0);
+            assert.ok(cacheControl);
+            assert.equal(cacheControl.indexOf("public"), 0);
 
             const controls = parseCacheControl(cacheControl);
-            expect(controls).to.property("max-age").and.to.equal(ttl);
-            expect(controls).to.property("s-maxage").and.to.equal(ttl);
-            expect(controls).to.property("must-revalidate");
-            expect(controls).to.property("no-transform");
-            expect(controls).to.property("proxy-revalidate");
+            assert.equal(controls["max-age"], ttl);
+            assert.equal(controls["s-maxage"], ttl);
+            assert.ok("must-revalidate" in controls);
+            assert.ok("no-transform" in controls);
+            assert.ok("proxy-revalidate" in controls);
             done();
         });
     });
@@ -160,7 +158,7 @@ describe("Cache Middleware", function () {
             const opts = { mustRevalidate: true };
             cache.public("1d", opts);
             cache.private("2h", opts);
-            expect(opts).to.deep.equal({ mustRevalidate: true });
+            assert.deepEqual(opts, { mustRevalidate: true });
         });
 
         it("reusing one options object should not leak scope or ttl between calls", function (t, done) {
@@ -169,10 +167,10 @@ describe("Cache Middleware", function () {
             const middleware = cache.private("2h", opts);
             runMiddleware(middleware, function (res) {
                 const controls = parseCacheControl(res.get("Cache-Control"));
-                expect(controls).to.have.property("private");
-                expect(controls).to.not.have.property("public");
-                expect(controls).to.not.have.property("s-maxage");
-                expect(controls).to.property("max-age").and.to.equal(7200);
+                assert.ok("private" in controls);
+                assert.ok(!("public" in controls));
+                assert.ok(!("s-maxage" in controls));
+                assert.equal(controls["max-age"], 7200);
                 done();
             });
         });
@@ -184,7 +182,7 @@ describe("Cache Middleware", function () {
                 const controls = parseCacheControl(cacheControl);
                 const defaultTtlSeconds = cache.toTimespan(cache.defaultTTL);
                 // 0 is falsy, so it defaults to defaultTTL (1h = 3600)
-                expect(controls).to.property("max-age").and.to.equal(defaultTtlSeconds);
+                assert.equal(controls["max-age"], defaultTtlSeconds);
                 done();
             });
         });
@@ -194,8 +192,8 @@ describe("Cache Middleware", function () {
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("max-age").and.to.equal(86400);
-                expect(controls).to.property("s-maxage").and.to.equal(86400);
+                assert.equal(controls["max-age"], 86400);
+                assert.equal(controls["s-maxage"], 86400);
                 done();
             });
         });
@@ -205,8 +203,8 @@ describe("Cache Middleware", function () {
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("max-age").and.to.equal(7200);
-                expect(controls).to.property("s-maxage").and.to.equal(7200);
+                assert.equal(controls["max-age"], 7200);
+                assert.equal(controls["s-maxage"], 7200);
                 done();
             });
         });
@@ -216,8 +214,8 @@ describe("Cache Middleware", function () {
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("max-age").and.to.equal(1800);
-                expect(controls).to.property("s-maxage").and.to.equal(1800);
+                assert.equal(controls["max-age"], 1800);
+                assert.equal(controls["s-maxage"], 1800);
                 done();
             });
         });
@@ -226,8 +224,8 @@ describe("Cache Middleware", function () {
             const middleware = cache.custom();
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
-                expect(cacheControl).to.not.be.null;
-                expect(cacheControl).to.be.a("string");
+                assert.ok(cacheControl);
+                assert.equal(typeof cacheControl, "string");
                 done();
             });
         });
@@ -236,9 +234,9 @@ describe("Cache Middleware", function () {
             const middleware = cache.custom({});
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
-                expect(cacheControl).to.not.be.null;
+                assert.ok(cacheControl);
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("private");
+                assert.ok("private" in controls);
                 done();
             });
         });
@@ -250,7 +248,7 @@ describe("Cache Middleware", function () {
             res.setHeader("Pragma", "no-cache");
             middleware.call(middleware, {}, res, function () {
                 const pragma = res.get("Pragma");
-                expect(pragma).to.be.undefined;
+                assert.equal(pragma, undefined);
                 done();
             });
         });
@@ -261,7 +259,7 @@ describe("Cache Middleware", function () {
             let nextCalled = false;
             middleware.call(middleware, {}, res, function () {
                 nextCalled = true;
-                expect(nextCalled).to.be.true;
+                assert.equal(nextCalled, true);
                 done();
             });
         });
@@ -271,8 +269,8 @@ describe("Cache Middleware", function () {
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("max-age").and.to.equal(604800);
-                expect(controls).to.property("s-maxage").and.to.equal(604800);
+                assert.equal(controls["max-age"], 604800);
+                assert.equal(controls["s-maxage"], 604800);
                 done();
             });
         });
@@ -280,7 +278,7 @@ describe("Cache Middleware", function () {
         it("cache public with invalid TTL should be treated as stale", function (t, done) {
             const middleware = cache.public("1h30m");
             runMiddleware(middleware, function (res) {
-                expect(res.get("Cache-Control")).to.equal("public, max-age=0, s-maxage=0");
+                assert.equal(res.get("Cache-Control"), "public, max-age=0, s-maxage=0");
                 done();
             });
         });
@@ -288,7 +286,7 @@ describe("Cache Middleware", function () {
         it("cache private with negative TTL should be treated as stale", function (t, done) {
             const middleware = cache.private("-1h");
             runMiddleware(middleware, function (res) {
-                expect(res.get("Cache-Control")).to.equal("private, max-age=0");
+                assert.equal(res.get("Cache-Control"), "private, max-age=0");
                 done();
             });
         });
@@ -302,8 +300,8 @@ describe("Cache Middleware", function () {
             runMiddleware(middleware, function (res) {
                 const cacheControl = res.get("Cache-Control");
                 const controls = parseCacheControl(cacheControl);
-                expect(controls).to.property("max-age").and.to.equal(7200);
-                expect(controls).to.property("s-maxage").and.to.equal(3600);
+                assert.equal(controls["max-age"], 7200);
+                assert.equal(controls["s-maxage"], 3600);
                 done();
             });
         });

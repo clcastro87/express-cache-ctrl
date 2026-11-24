@@ -23,7 +23,7 @@ node --test --test-name-pattern="cache disabled" test/*.js test/unit/*.js
 node --test --test-reporter=spec test/*.js test/unit/*.js
 ```
 
-Note: This project uses `node:test` (built-in test runner) + Chai (assertions). Tests use BDD style with `describe()` and `it()` blocks.
+Note: This project uses `node:test` (built-in test runner) + `node:assert/strict` (assertions). Tests use BDD style with `describe()` and `it()` blocks.
 
 ## Code Style Guidelines
 
@@ -57,7 +57,7 @@ Note: This project uses `node:test` (built-in test runner) + Chai (assertions). 
 - Unit tests: Place in `test/unit/` subdirectory
 - Mock objects: Place in `test/mocks/` subdirectory
 - Import the runner: `const { describe, it } = require("node:test");`
-- Use Chai's `expect()` assertion style
+- Use strict assertions: `const assert = require("node:assert/strict");`
 - Use descriptive test names that explain behavior
 - Group related tests with nested `describe()` blocks
 - Follow pattern: `it("should do something", function (t, done) { ... });` (`done` is the second argument)
@@ -97,7 +97,6 @@ Peer:
 - express: ^4.0.0 || ^5.0.0
 
 Development:
-- chai: ^4.3.7
 - express: ^4.22.1
 - mock-res: ^0.6.0
 
