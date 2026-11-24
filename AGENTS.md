@@ -80,6 +80,7 @@ src/
   cache.js          # Main middleware implementation
 test/
   cache.js          # Integration tests
+  package.js        # Dependency and real express app tests
   unit/
     cache.js        # Unit tests for internal functions
   mocks/
@@ -89,12 +90,15 @@ test/
 ## Dependencies
 
 Production:
-- express: ^4.18.2
 - ms: ^2.1.3
+
+Peer:
+- express: ^4.0.0 || ^5.0.0
 
 Development:
 - mocha: ^10.2.0
 - chai: ^4.3.7
+- express: ^4.22.1
 - mock-res: ^0.6.0
 
 ## Important Notes

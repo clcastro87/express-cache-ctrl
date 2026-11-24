@@ -147,6 +147,22 @@ describe("Cache Internal Functions", function () {
             });
         });
 
+        describe("invalid TTL handling", function () {
+            const invalidTTLs = ["1h30m", "invalid", "-1h", -5, Infinity, true];
+
+            invalidTTLs.forEach(function (ttl) {
+                it(`should emit max-age=0 for ttl ${ttl} (${typeof ttl})`, function () {
+                    const result = cache.generateHeader({ ttl: ttl });
+                    expect(result).to.deep.equal(["private", "max-age=0"]);
+                });
+
+                it(`should emit s-maxage=0 for sttl ${ttl} (${typeof ttl})`, function () {
+                    const result = cache.generateHeader({ ttl: 60, sttl: ttl });
+                    expect(result).to.deep.equal(["private", "max-age=60", "s-maxage=0"]);
+                });
+            });
+        });
+
         describe("revalidation flags", function () {
             it("should add must-revalidate when specified", function () {
                 const result = cache.generateHeader({ mustRevalidate: true });

@@ -20,8 +20,10 @@ Express middleware to manage the `Cache-Control` header, helping browsers with H
 ## Installation
 
 ```bash
-npm install express-cache-ctrl
+npm install express express-cache-ctrl
 ```
+
+Express 4 or 5 is required as a peer dependency.
 
 ## Basic Usage
 
@@ -82,6 +84,8 @@ The `public`, `private`, and `custom` methods accept an options object with the 
 -   `proxyRevalidate`: (Boolean) If `true`, adds the `proxy-revalidate` directive.
 -   `noTransform`: (Boolean) If `true`, adds the `no-transform` directive.
 -   `noCache`: (Boolean) If `true`, adds `no-cache` and `no-store` directives.
+
+Invalid or negative `ttl` and `sttl` values (e.g., `'1h30m'`, which `ms` can't parse) are sent as `0`, so caches treat the response as stale.
 
 ## Examples
 
